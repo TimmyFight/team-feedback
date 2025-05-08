@@ -8,7 +8,6 @@ The fullstack application created by Angular 19 and Node.js to give feedback to 
 - Node.js
 - TypeScript
 - MongoDB
-- Jest
 - SCSS
 
 ## Deployed version
