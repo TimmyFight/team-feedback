@@ -1,0 +1,24 @@
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+
+  .questionLabel {
+    margin-top: 2em;
+    color: #fff;
+  }
+
+  .radioGroup {
+    display: flex;
+    justify-content: space-around;
+    gap: 2em;
+  }
+}
+
+.summaryText {
+  color: #fff;
+}

@@ -1,0 +1,36 @@
+<mat-stepper #stepper>
+  <ng-container *ngFor="let step of formSteps">
+    <mat-step
+      [stepControl]="getFormGroup(step.type)"
+      errorMessage="You didn't respond.">
+      <form [formGroup]="getFormGroup(step.type)" class="formGroup">
+        <ng-template matStepLabel>{{ step.typeLabel }}</ng-template>
+        <ng-container *ngFor="let question of step.questions">
+          <mat-label ngClass="questionLabel">{{ question.content }}</mat-label>
+          <mat-radio-group
+            [formControlName]="question.formControl"
+            ngClass="radioGroup">
+            <mat-radio-button value="1">Strongly disagree</mat-radio-button>
+            <mat-radio-button value="2">Disagree</mat-radio-button>
+            <mat-radio-button value="3">Neutral</mat-radio-button>
+            <mat-radio-button value="4">Agree</mat-radio-button>
+            <mat-radio-button value="5">Strongly agree</mat-radio-button>
+          </mat-radio-group>
+        </ng-container>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+  </ng-container>
+  <mat-step>
+    <ng-template matStepLabel>Send a feedback</ng-template>
+    <p class="summaryText">
+      If you feel that you are ready, please send this feedback.
+    </p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>
