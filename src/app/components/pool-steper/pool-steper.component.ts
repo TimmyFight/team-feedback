@@ -1,4 +1,4 @@
-import { formSteps } from "./../../constants/index";
+import { formSteps, FormStep } from "./../../constants/index";
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -37,11 +37,16 @@ import { MatStepperModule } from "@angular/material/stepper";
   styleUrl: "./pool-steper.component.scss",
 })
 export class PoolSteperComponent {
-  formSteps = formSteps;
+  formSteps: FormStep[] = formSteps;
   private _formBuilder = inject(FormBuilder);
 
   defaultFormGroup = this._formBuilder.group({
     default: [""],
+  });
+
+  detailsFormGroup = this._formBuilder.group({
+    detailsFirst: ["", Validators.required],
+    detailsSecond: ["", Validators.required],
   });
 
   communicationFormGroup = this._formBuilder.group({
@@ -65,6 +70,10 @@ export class PoolSteperComponent {
   });
 
   getFormGroup(type: string) {
+    if (type === "detailsFormGroup") {
+      return this.detailsFormGroup;
+    }
+
     if (type === "communicationFormGroup") {
       return this.communicationFormGroup;
     }
@@ -85,5 +94,13 @@ export class PoolSteperComponent {
       return this.collaborationSupportFormGroup;
     }
     return this.defaultFormGroup;
+  }
+
+  isAllFormsValid(): boolean {
+    return this.formSteps.every((step) => this.getFormGroup(step.type).valid);
+  }
+
+  sendFeedback() {
+    console.log("Feedback sent");
   }
 }

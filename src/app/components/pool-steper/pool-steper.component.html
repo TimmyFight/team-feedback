@@ -1,4 +1,4 @@
-<mat-stepper #stepper>
+<mat-stepper orientation="vertical" #stepper>
   <ng-container *ngFor="let step of formSteps">
     <mat-step
       [stepControl]="getFormGroup(step.type)"
@@ -6,16 +6,32 @@
       <form [formGroup]="getFormGroup(step.type)" class="formGroup">
         <ng-template matStepLabel>{{ step.typeLabel }}</ng-template>
         <ng-container *ngFor="let question of step.questions">
-          <mat-label ngClass="questionLabel">{{ question.content }}</mat-label>
-          <mat-radio-group
-            [formControlName]="question.formControl"
-            ngClass="radioGroup">
-            <mat-radio-button value="1">Strongly disagree</mat-radio-button>
-            <mat-radio-button value="2">Disagree</mat-radio-button>
-            <mat-radio-button value="3">Neutral</mat-radio-button>
-            <mat-radio-button value="4">Agree</mat-radio-button>
-            <mat-radio-button value="5">Strongly agree</mat-radio-button>
-          </mat-radio-group>
+          <div
+            class="questionContainer"
+            *ngIf="question.inputType === 'radioGroup'">
+            <mat-label ngClass="questionLabel">{{
+              question.content
+            }}</mat-label>
+            <mat-radio-group
+              [formControlName]="question.formControl"
+              ngClass="radioGroup">
+              <mat-radio-button value="1">Strongly disagree</mat-radio-button>
+              <mat-radio-button value="2">Disagree</mat-radio-button>
+              <mat-radio-button value="3">Neutral</mat-radio-button>
+              <mat-radio-button value="4">Agree</mat-radio-button>
+              <mat-radio-button value="5">Strongly agree</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="questionContainer" *ngIf="question.inputType === 'text'">
+            <mat-label ngClass="questionLabel">{{
+              question.content
+            }}</mat-label>
+            <mat-form-field appearance="fill">
+              <mat-label>{{ question?.label }}</mat-label>
+              <input matInput [formControlName]="question.formControl" />
+            </mat-form-field>
+          </div>
         </ng-container>
         <div>
           <button mat-button matStepperNext>Next</button>
@@ -29,7 +45,12 @@
       If you feel that you are ready, please send this feedback.
     </p>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
+      <button
+        mat-button
+        [disabled]="!isAllFormsValid()"
+        (click)="sendFeedback()">
+        Send your feedback!
+      </button>
       <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
   </mat-step>
