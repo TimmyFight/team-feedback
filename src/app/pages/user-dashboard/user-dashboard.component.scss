@@ -1,0 +1,9 @@
+#dashboadardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-bottom: 50px;
+  .dashboardTile {
+    width: 45%;
+  }
+}

@@ -1,0 +1,11 @@
+<mat-card id="feedbackSummaryCard">
+  <h3>Feedback Summary</h3>
+  <ng-container *ngIf="isBrowser">
+    <canvas
+      baseChart
+      [data]="radarChartData"
+      [options]="radarChartOptions"
+      [type]="radarChartType">
+    </canvas>
+  </ng-container>
+</mat-card>
