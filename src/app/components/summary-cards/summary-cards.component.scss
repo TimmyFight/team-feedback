@@ -1,0 +1,14 @@
+#summaryCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em;
+  .summaryCard {
+    text-align: center;
+    padding: 1em 1em;
+
+    h4 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+  }
+}
