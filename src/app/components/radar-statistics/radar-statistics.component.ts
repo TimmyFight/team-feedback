@@ -33,13 +33,7 @@ export class RadarStatisticsComponent {
       },
     },
     plugins: {
-      legend: {
-        labels: {
-          font: {
-            size: 14,
-          },
-        },
-      },
+      legend: { display: false },
     },
   };
 
@@ -53,10 +47,7 @@ export class RadarStatisticsComponent {
 
   public radarChartData: ChartData<"radar"> = {
     labels: this.radarChartLabels,
-    datasets: [
-      { data: [3, 5, 2, 3, 1], label: "2025" },
-      { data: [2, 3, 1, 5, 3], label: "2024" },
-    ],
+    datasets: [{ data: [3, 5, 2, 3, 1] }],
   };
   public radarChartType: ChartType = "radar";
 }

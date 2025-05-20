@@ -1,0 +1,20 @@
+<section id="feedbackOverTimeCard">
+  <h3>Feedback Over Time</h3>
+  <ng-container
+    *ngIf="
+      isBrowser &&
+        feedbackOverTimeData &&
+        feedbackOverTimeData.datasets.length > 0;
+      else noFeedback
+    ">
+    <canvas
+      baseChart
+      [data]="feedbackOverTimeData"
+      [options]="lineChartOptions"
+      [type]="lineChartType">
+    </canvas>
+  </ng-container>
+  <ng-template #noFeedback>
+    <p>You have not received any feedback yet.</p>
+  </ng-template>
+</section>
