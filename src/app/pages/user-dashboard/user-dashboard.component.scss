@@ -1,9 +1,11 @@
 #dashboadardContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  column-count: 2;
+  column-gap: 24px;
   padding-bottom: 50px;
   .dashboardTile {
-    width: 45%;
+    display: block;
+    width: 100%;
+    margin-bottom: 24px;
+    break-inside: avoid;
   }
 }
