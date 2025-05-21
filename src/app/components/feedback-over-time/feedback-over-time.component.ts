@@ -25,6 +25,10 @@ export class FeedbackOverTimeComponent {
     scales: {
       y: {
         position: "left",
+        min: 0,
+        ticks: {
+          stepSize: 1,
+        },
       },
     },
 

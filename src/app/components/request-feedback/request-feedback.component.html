@@ -1,0 +1,45 @@
+<section id="requestFeedback">
+  <mat-card class="matCard">
+    <h3>Request Feedback</h3>
+    <p>Ask your teammate to give you feedback.</p>
+
+    <section id="requestFeedbackForm">
+      <form [formGroup]="requestFeedbackForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Who do you want to ask?</mat-label>
+          <input
+            matInput
+            placeholder="Full Name"
+            [formControl]="fullNameControl"
+            (blur)="updateErrorMessages()"
+            required />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Which project?</mat-label>
+          <input
+            matInput
+            placeholder="Project Name"
+            [formControl]="projectNameControl"
+            (blur)="updateErrorMessages()"
+            required />
+        </mat-form-field>
+
+        <section id="errorSection">
+          <mat-error
+            *ngIf="requestFeedbackForm.invalid && requestFeedbackForm.touched">
+            Please fill out full name and project name.
+          </mat-error>
+        </section>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="requestFeedbackForm.invalid">
+          Send Request
+        </button>
+      </form>
+    </section>
+  </mat-card>
+</section>

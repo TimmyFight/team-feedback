@@ -1,0 +1,20 @@
+#requestFeedback {
+  .matCard {
+    padding: 1em 1em;
+
+    p {
+      margin-top: 0;
+    }
+
+    #requestFeedbackForm {
+      form {
+        display: flex;
+        flex-direction: column;
+
+        #errorSection {
+          height: 3em;
+        }
+      }
+    }
+  }
+}
