@@ -27,7 +27,7 @@ import { map, shareReplay } from "rxjs/operators";
 export class NavigationComponent {
   navigationLinks = [
     { name: "User Dashboard", path: "/" },
-    { name: "Feedback Pool", path: "/feedback-pool" },
+    { name: "Give your feedback", path: "/feedback-pool" },
   ];
 
   private breakpointObserver = inject(BreakpointObserver);
