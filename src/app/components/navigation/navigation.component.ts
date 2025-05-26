@@ -1,7 +1,8 @@
 import { Component, inject } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { AsyncPipe, CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { AsyncPipe } from "@angular/common";
+
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -16,6 +17,7 @@ import { map, shareReplay } from "rxjs/operators";
   styleUrl: "./navigation.component.scss",
   imports: [
     CommonModule,
+    RouterModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

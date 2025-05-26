@@ -4,6 +4,11 @@
 
 .sidenav {
   width: 200px;
+  text-align: center;
+
+  .active-link {
+    background-color: var(--mat-sys-primary);
+  }
 }
 
 .sidenav .mat-toolbar {

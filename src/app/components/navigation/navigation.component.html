@@ -8,7 +8,13 @@
     [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list *ngFor="let link of navigationLinks">
-      <a mat-list-item [href]="link.path">{{ link.name }}</a>
+      <a
+        mat-list-item
+        [routerLink]="link.path"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >{{ link.name }}</a
+      >
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
