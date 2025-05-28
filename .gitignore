@@ -1,3 +1,16 @@
+# angular
+frontend/.angular/cache
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# testing
+coverage
+
+# production
+build
+
 # Logs
 logs
 *.log
