@@ -10,7 +10,7 @@ import authorize from "../middlewares/auth.middleware";
 
 const feedbackRouter = Router();
 
-feedbackRouter.get("/:id", authorize, getUserFeedbacks);
+feedbackRouter.get("/user/:id", authorize, getUserFeedbacks);
 
 feedbackRouter.post("/", authorize, createFeedback);
 

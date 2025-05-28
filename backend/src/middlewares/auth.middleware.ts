@@ -1,4 +1,4 @@
-import { JWT_SECRET } from "../config/env.js";
+import { JWT_SECRET } from "../config/env";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model";
 

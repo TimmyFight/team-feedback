@@ -4,7 +4,7 @@ import cors from "cors";
 
 import { PORT } from "./config/env";
 
-import authRouter from "./routes/auth.routes.js";
+import authRouter from "./routes/auth.routes";
 import feedbackRouter from "./routes/feedback.routes";
 import connectToDatabase from "./database/mongodb";
 import errorMiddleware from "./middlewares/error.middleware";
