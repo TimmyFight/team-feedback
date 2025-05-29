@@ -19,13 +19,13 @@ export const formSteps: FormStep[] = [
       {
         content: "Who is the addressee of the feedback?",
         label: "Full Name",
-        formControl: "detailsFirst",
+        formControl: "userId",
         inputType: "text",
       },
       {
         content: "For which project is the feedback?",
         label: "Project Name",
-        formControl: "detailsSecond",
+        formControl: "projectName",
         inputType: "text",
       },
     ],

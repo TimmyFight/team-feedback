@@ -15,7 +15,7 @@ export const getUserFeedbacks = async (
     }
 
     const feedback = await Feedback.find({
-      user: req.params.id,
+      userId: req.params.id,
     });
 
     res.status(200).json({ success: true, data: feedback });
@@ -32,7 +32,6 @@ export const createFeedback = async (
   try {
     const feedback = await Feedback.create({
       ...req.body,
-      user: (req as any).user._id,
     });
 
     res.status(201).json({ success: true, data: feedback });

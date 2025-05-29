@@ -45,8 +45,8 @@ export class PoolSteperComponent {
   });
 
   detailsFormGroup = this._formBuilder.group({
-    detailsFirst: ["", Validators.required],
-    detailsSecond: ["", Validators.required],
+    userId: ["", Validators.required],
+    projectName: ["", Validators.required],
   });
 
   communicationFormGroup = this._formBuilder.group({
