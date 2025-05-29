@@ -1,5 +1,5 @@
 <main class="main">
-  <app-navigation />
+  <app-navigation *ngIf="shouldShowNavigation()" />
   <section id="content">
     <router-outlet />
   </section>
