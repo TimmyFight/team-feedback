@@ -1,0 +1,14 @@
+#loginPage {
+  position: absolute;
+  left: 50%;
+  width: 300px;
+  transform: translateX(-50%);
+
+  #loginForm {
+    form {
+      display: flex;
+      gap: 2em;
+      flex-direction: column;
+    }
+  }
+}

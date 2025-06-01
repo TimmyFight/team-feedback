@@ -3,3 +3,8 @@ interface RecentFeedback {
   average: number;
   highlight: string;
 }
+
+interface UserCredentials {
+  email: string;
+  password: string;
+}

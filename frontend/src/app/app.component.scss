@@ -2,12 +2,12 @@
   min-height: 100vh;
   background-color: var(--mat-sys-surface);
   #content {
-    margin: 20px;
+    padding: 20px;
   }
 
   @media (min-width: 768px) {
     #content {
-      margin: 50px 50px 50px 250px;
+      padding: 50px 50px 50px 250px;
     }
   }
 }

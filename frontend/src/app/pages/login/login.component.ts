@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  signal,
+  inject,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   FormControl,
@@ -13,6 +19,8 @@ import { merge } from "rxjs";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { AccountService } from "../../services/account.service";
 
 @Component({
   selector: "app-login",
@@ -29,6 +37,10 @@ import { MatButtonModule } from "@angular/material/button";
   styleUrl: "./login.component.scss",
 })
 export class LoginComponent {
+  private accountService = inject(AccountService);
+  private _snackBar = inject(MatSnackBar);
+  private router = inject(Router);
+
   readonly emailControl = new FormControl("", [Validators.required]);
   readonly passwordControl = new FormControl("", [Validators.required]);
 
@@ -51,6 +63,12 @@ export class LoginComponent {
       .subscribe(() => this.updateErrorMessages());
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
   updateErrorMessages() {
     if (this.emailControl.hasError("required")) {
       this.emailerrorMessage.set("You must enter a value");
@@ -66,6 +84,23 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log("Login form submitted");
+    if (this.loginForm.invalid) {
+      this.updateErrorMessages();
+      return;
+    }
+
+    const credentials = {
+      email: this.emailControl.value ?? "",
+      password: this.passwordControl.value ?? "",
+    };
+    this.accountService.login(credentials).subscribe({
+      next: (response) => {
+        this.openSnackBar("Login successful", "Close");
+        this.router.navigate(["/"]);
+      },
+      error: (error) => {
+        this.openSnackBar(`Login fialed: ${error.error.error}`, "Close");
+      },
+    });
   }
 }
