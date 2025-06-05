@@ -6,16 +6,23 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list *ngFor="let link of navigationLinks">
-      <a
-        mat-list-item
-        [routerLink]="link.path"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }"
-        >{{ link.name }}</a
-      >
-    </mat-nav-list>
+    <div class="sidenavContent">
+      <mat-toolbar>Menu</mat-toolbar>
+
+      <mat-nav-list *ngFor="let link of navigationLinks">
+        <a
+          mat-list-item
+          [routerLink]="link.path"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >{{ link.name }}</a
+        >
+      </mat-nav-list>
+
+      <div class="navigationBottom">
+        <app-sign-out />
+      </div>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">

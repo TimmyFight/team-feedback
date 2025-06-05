@@ -3,6 +3,8 @@ import { AsyncPipe, CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
+import { SignOutComponent } from "../sign-out/sign-out.component";
+
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -18,6 +20,7 @@ import { map, shareReplay } from "rxjs/operators";
   imports: [
     CommonModule,
     RouterModule,
+    SignOutComponent,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

@@ -9,6 +9,18 @@
   .active-link {
     background-color: var(--mat-sys-primary);
   }
+
+  .sidenavContent {
+    height: 100%;
+
+    .navigationBottom {
+      width: 150px;
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+      bottom: 50px;
+    }
+  }
 }
 
 .sidenav .mat-toolbar {
