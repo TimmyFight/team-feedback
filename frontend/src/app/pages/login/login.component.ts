@@ -94,8 +94,9 @@ export class LoginComponent {
       password: this.passwordControl.value ?? "",
     };
     this.accountService.login(credentials).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         this.openSnackBar("Login successful", "Close");
+        sessionStorage.setItem("token", response?.data?.token);
         this.router.navigate(["/"]);
       },
       error: (error) => {
