@@ -100,7 +100,7 @@ export class LoginComponent {
         this.router.navigate(["/"]);
       },
       error: (error) => {
-        this.openSnackBar(`Login fialed: ${error.error.error}`, "Close");
+        this.openSnackBar(`Login failed: ${error.error.error}`, "Close");
       },
     });
   }

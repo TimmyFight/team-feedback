@@ -14,6 +14,8 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatStepperModule } from "@angular/material/stepper";
+import { FeedbackService } from "../../services/feedback.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-pool-steper",
@@ -37,6 +39,9 @@ import { MatStepperModule } from "@angular/material/stepper";
   styleUrl: "./pool-steper.component.scss",
 })
 export class PoolSteperComponent {
+  private feedbackService = inject(FeedbackService);
+  private _snackBar = inject(MatSnackBar);
+
   formSteps: FormStep[] = formSteps;
   private _formBuilder = inject(FormBuilder);
 
@@ -50,7 +55,7 @@ export class PoolSteperComponent {
   });
 
   communicationFormGroup = this._formBuilder.group({
-    comunicationFirst: ["", Validators.required],
+    communicationFirst: ["", Validators.required],
   });
 
   contributionBalanceFormGroup = this._formBuilder.group({
@@ -68,6 +73,12 @@ export class PoolSteperComponent {
   collaborationSupportFormGroup = this._formBuilder.group({
     collaborationSupportFirst: ["", Validators.required],
   });
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
 
   getFormGroup(type: string) {
     if (type === "detailsFormGroup") {
@@ -101,6 +112,37 @@ export class PoolSteperComponent {
   }
 
   sendFeedback() {
-    console.log("Feedback sent");
+    const feedback: Feedback = {
+      userId: this.detailsFormGroup.get("userId")?.value ?? "",
+      projectName: this.detailsFormGroup.get("projectName")?.value ?? "",
+      communicationFirst:
+        this.communicationFormGroup.get("communicationFirst")?.value ?? "",
+      contributionBalanceFirst:
+        this.contributionBalanceFormGroup.get("contributionBalanceFirst")
+          ?.value ?? "",
+      opennessFeedbackFirst:
+        this.opennessFeedbackFormGroup.get("opennessFeedbackFirst")?.value ??
+        "",
+      clarityGoalsFirst:
+        this.clarityGoalsFormGroup.get("clarityGoalsFirst")?.value ?? "",
+      collaborationSupportFirst:
+        this.collaborationSupportFormGroup.get("collaborationSupportFirst")
+          ?.value ?? "",
+    };
+
+    this.feedbackService.createFeedback(feedback).subscribe({
+      next: (response: any) => {
+        this.openSnackBar("Feedback sent.", "Close");
+        this.detailsFormGroup.reset();
+        this.communicationFormGroup.reset();
+        this.contributionBalanceFormGroup.reset();
+        this.opennessFeedbackFormGroup.reset();
+        this.clarityGoalsFormGroup.reset();
+        this.collaborationSupportFormGroup.reset();
+      },
+      error: (error) => {
+        this.openSnackBar(`Feedback failed: ${error?.error?.error}`, "Close");
+      },
+    });
   }
 }

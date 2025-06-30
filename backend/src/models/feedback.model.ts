@@ -13,7 +13,7 @@ const feedbackSchema = new mongoose.Schema(
       minLength: [3, "User Full Name must be at least 3 characters"],
       maxLength: [50, "User Full Name must not be more than 50 characters"],
     },
-    comunicationFirst: {
+    communicationFirst: {
       type: String,
       required: [true, "Cumunication response is required"],
     },

@@ -38,7 +38,7 @@ export const formSteps: FormStep[] = [
       {
         content:
           "I feel that communication within our web project team is effective and timely.",
-        formControl: "comunicationFirst",
+        formControl: "communicationFirst",
         inputType: "radioGroup",
       },
     ],
