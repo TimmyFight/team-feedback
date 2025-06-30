@@ -97,6 +97,7 @@ export class LoginComponent {
       next: (response: any) => {
         this.openSnackBar("Login successful", "Close");
         sessionStorage?.setItem("token", response?.data?.token);
+        sessionStorage?.setItem("userId", response?.data?.user?._id);
         this.router.navigate(["/"]);
       },
       error: (error) => {

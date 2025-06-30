@@ -17,4 +17,13 @@ export class FeedbackService {
     });
     return this.http.post(url, feedback, { headers });
   }
+
+  getUserFeedbacks(userId: string) {
+    const url = `${environment.apiUrl}/feedback/user/${userId}`;
+    const token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get(url, { headers });
+  }
 }

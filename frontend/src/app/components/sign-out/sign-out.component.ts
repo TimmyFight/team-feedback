@@ -30,6 +30,7 @@ export class SignOutComponent {
       next: (response: any) => {
         this.openSnackBar("User signed out successfully", "Close");
         sessionStorage.removeItem("token");
+        sessionStorage.removeItem("userId");
         this.router.navigate(["/account/login"]);
       },
       error: (error) => {

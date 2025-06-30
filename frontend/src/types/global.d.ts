@@ -11,10 +11,17 @@ interface UserCredentials {
 
 interface Feedback {
   userId: string;
+  createdAt?: string;
   projectName: string;
   communicationFirst: string;
   contributionBalanceFirst: string;
   opennessFeedbackFirst: string;
   clarityGoalsFirst: string;
   collaborationSupportFirst: string;
+}
+
+interface FeedbackRecent {
+  createdAt: string;
+  average: number;
+  highlight: string;
 }
