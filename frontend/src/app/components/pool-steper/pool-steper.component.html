@@ -36,6 +36,7 @@
                   [formControlName]="question.formControl"
                   [matAutocomplete]="auto" />
                 <mat-autocomplete
+                  requireSelection
                   #auto="matAutocomplete"
                   [displayWith]="displayFn">
                   @for (user of filteredUsers | async; track user) {
