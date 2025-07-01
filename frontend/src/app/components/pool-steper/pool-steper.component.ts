@@ -9,13 +9,16 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatStepperModule } from "@angular/material/stepper";
 import { FeedbackService } from "../../services/feedback.service";
+import { UserService } from "../../services/user.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { map, Observable, startWith } from "rxjs";
 
 @Component({
   selector: "app-pool-steper",
@@ -33,17 +36,59 @@ import { MatSnackBar } from "@angular/material/snack-bar";
     MatFormFieldModule,
     MatRadioModule,
     MatInputModule,
+    MatAutocompleteModule,
     MatButtonModule,
   ],
   templateUrl: "./pool-steper.component.html",
   styleUrl: "./pool-steper.component.scss",
 })
 export class PoolSteperComponent {
+  ngOnInit(): void {
+    this.getUsers();
+
+    this.filteredUsers = this.detailsFormGroup.get("userId")!.valueChanges.pipe(
+      startWith(""),
+      map((value) => {
+        let filterValue = "";
+        if (typeof value === "string") {
+          filterValue = value;
+        } else if (
+          typeof value === "object" &&
+          value !== null &&
+          "_id" in value
+        ) {
+          // @ts-ignore
+          filterValue = value?._id;
+        } else {
+          filterValue = "";
+        }
+        return filterValue ? this._filter(filterValue) : this.users.slice();
+      })
+    );
+  }
+
+  displayFn = (userId: string): string => {
+    const user = this.users.find((u) => u._id === userId);
+    return user ? user.fullName : "";
+  };
+
+  private _filter(name: string): User[] {
+    const filterValue = name.toLowerCase();
+
+    return this.users.filter((user) =>
+      user.fullName.toLowerCase().includes(filterValue)
+    );
+  }
+
   private feedbackService = inject(FeedbackService);
+  private userService = inject(UserService);
   private _snackBar = inject(MatSnackBar);
 
   formSteps: FormStep[] = formSteps;
   private _formBuilder = inject(FormBuilder);
+
+  users: User[] = [];
+  filteredUsers!: Observable<User[]>;
 
   defaultFormGroup = this._formBuilder.group({
     default: [""],
@@ -77,6 +122,17 @@ export class PoolSteperComponent {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 3000,
+    });
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe({
+      next: (response: any) => {
+        this.users = response.data;
+      },
+      error: (error) => {
+        this.openSnackBar(`Users failed: ${error?.error?.error}`, "Close");
+      },
     });
   }
 

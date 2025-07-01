@@ -8,6 +8,7 @@ import authRouter from "./routes/auth.routes";
 import feedbackRouter from "./routes/feedback.routes";
 import connectToDatabase from "./database/mongodb";
 import errorMiddleware from "./middlewares/error.middleware";
+import userRouter from "./routes/user.routes";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(
 
 app.use("/api/auth", authRouter);
 app.use("/api/feedback", feedbackRouter);
+app.use("/api/users", userRouter);
 
 app.use(errorMiddleware);
 

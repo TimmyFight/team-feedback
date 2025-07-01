@@ -9,6 +9,14 @@ interface UserCredentials {
   password: string;
 }
 
+interface User {
+  _id: string;
+  fullName: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface Feedback {
   userId: string;
   createdAt?: string;
