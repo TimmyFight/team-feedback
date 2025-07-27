@@ -33,3 +33,9 @@ interface FeedbackRecent {
   average: number;
   highlight: string;
 }
+
+interface SummaryFeedback {
+  average: number;
+  feedbacksRecieved: number;
+  givenFeedbacks: number;
+}

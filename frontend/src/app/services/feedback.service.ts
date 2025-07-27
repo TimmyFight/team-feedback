@@ -26,4 +26,13 @@ export class FeedbackService {
     });
     return this.http.get(url, { headers });
   }
+
+  getUserFeedbackSummary(userId: string) {
+    const url = `${environment.apiUrl}/feedback/user/${userId}/summary`;
+    const token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get(url, { headers });
+  }
 }
