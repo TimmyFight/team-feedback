@@ -14,11 +14,42 @@ export const getUserFeedbacks = async (
       throw error;
     }
 
-    const feedback = await Feedback.find({
+    const userFeedbacks = await Feedback.find({
       userId: req.params.id,
     });
 
-    res.status(200).json({ success: true, data: feedback });
+    const feedbackWithStats = userFeedbacks.map((feedback: any) => {
+      const scores = [
+        parseFloat(feedback.communicationFirst),
+        parseFloat(feedback.contributionBalanceFirst),
+        parseFloat(feedback.opennessFeedbackFirst),
+        parseFloat(feedback.clarityGoalsFirst),
+        parseFloat(feedback.collaborationSupportFirst),
+      ];
+      const average =
+        scores.reduce((accumulator, value) => accumulator + value, 0) /
+        scores.length;
+
+      const highlights = [
+        "Communication",
+        "Contribution Balance",
+        "Openness Feedback",
+        "Clarity of Goals",
+        "Collaboration Support",
+      ];
+      const maxScore = Math.max(...scores);
+      const index = scores.indexOf(maxScore);
+      const highlight = highlights[index] || "No Highlight";
+
+      return {
+        createdAt: feedback.createdAt,
+        projectName: feedback.projectName,
+        average,
+        highlight,
+      };
+    });
+
+    res.status(200).json({ success: true, data: feedbackWithStats });
   } catch (error) {
     next(error);
   }

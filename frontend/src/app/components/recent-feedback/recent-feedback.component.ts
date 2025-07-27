@@ -28,51 +28,20 @@ export class RecentFeedbackComponent {
     });
   }
 
-  feedbackAverage(feedback: Feedback) {
-    return (
-      (parseFloat(feedback?.communicationFirst) +
-        parseFloat(feedback?.contributionBalanceFirst) +
-        parseFloat(feedback?.opennessFeedbackFirst) +
-        parseFloat(feedback?.clarityGoalsFirst) +
-        parseFloat(feedback?.collaborationSupportFirst)) /
-      5
-    );
-  }
-
-  feedbackHighlight(feedback: Feedback) {
-    const scores = [
-      parseFloat(feedback?.communicationFirst),
-      parseFloat(feedback?.contributionBalanceFirst),
-      parseFloat(feedback?.opennessFeedbackFirst),
-      parseFloat(feedback?.clarityGoalsFirst),
-      parseFloat(feedback?.collaborationSupportFirst),
-    ];
-
-    const maxScore = Math.max(...scores);
-    const highlights = [
-      "Communication",
-      "Contribution Balance",
-      "Openness Feedback",
-      "Clarity of Goals",
-      "Collaboration Support",
-    ];
-    const index = scores.indexOf(maxScore);
-
-    return highlights[index] || "No Highlight";
-  }
-
   getUserFeedbacks() {
     const userId = sessionStorage.getItem("userId") || "";
 
     this.feedbackService.getUserFeedbacks(userId).subscribe({
       next: (response: any) => {
-        this.recentFeedbackData = response.data.map((feedback: Feedback) => ({
-          createdAt:
-            feedback?.createdAt &&
-            new Date(feedback.createdAt).toLocaleDateString(),
-          average: this.feedbackAverage(feedback),
-          highlight: this.feedbackHighlight(feedback),
-        }));
+        this.recentFeedbackData = response.data.map(
+          (feedback: FeedbackRecent) => ({
+            createdAt:
+              feedback.createdAt &&
+              new Date(feedback.createdAt).toLocaleDateString(),
+            average: feedback.average,
+            highlight: feedback.highlight,
+          })
+        );
       },
       error: (error) => {
         this.openSnackBar(`Feedback failed: ${error?.error?.error}`, "Close");
