@@ -166,6 +166,56 @@ export const getUserFeedbackCategorySummary = async (
   }
 };
 
+export const getUserFeedbackOverTime = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if ((req as any).user.id !== req.params.id) {
+      const error: any = new Error("You are not the owner of this account");
+      error.status = 401;
+      throw error;
+    }
+
+    const userFeedbacks = await Feedback.find({
+      userId: req.params.id,
+    });
+
+    const shortMonthLabels: string[] = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const userFeedbacksPerMonth = Array(12).fill(0);
+
+    userFeedbacks.forEach((feedback: any) => {
+      const month = new Date(feedback.createdAt).getMonth();
+      userFeedbacksPerMonth[month]++;
+    });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        labels: shortMonthLabels,
+        datasets: [{ data: userFeedbacksPerMonth }],
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createFeedback = async (
   req: Request,
   res: Response,

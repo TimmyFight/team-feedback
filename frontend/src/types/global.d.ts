@@ -39,3 +39,7 @@ interface SummaryFeedback {
   feedbacksRecieved: number;
   givenFeedbacks: number;
 }
+
+interface Dataset {
+  data: { datasets: [{ data: number[] }] };
+}

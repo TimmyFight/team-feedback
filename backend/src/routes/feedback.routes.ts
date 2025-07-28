@@ -7,6 +7,7 @@ import {
   getUserFeedbacks,
   getUserFeedbackSummary,
   getUserFeedbackCategorySummary,
+  getUserFeedbackOverTime,
 } from "../controllers/feedback.controller";
 import authorize from "../middlewares/auth.middleware";
 
@@ -19,6 +20,8 @@ feedbackRouter.get(
 );
 
 feedbackRouter.get("/user/:id/summary", authorize, getUserFeedbackSummary);
+
+feedbackRouter.get("/user/:id/over-time", authorize, getUserFeedbackOverTime);
 
 feedbackRouter.get("/user/:id", authorize, getUserFeedbacks);
 
