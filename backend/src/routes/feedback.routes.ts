@@ -6,10 +6,17 @@ import {
   createFeedback,
   getUserFeedbacks,
   getUserFeedbackSummary,
+  getUserFeedbackCategorySummary,
 } from "../controllers/feedback.controller";
 import authorize from "../middlewares/auth.middleware";
 
 const feedbackRouter = Router();
+
+feedbackRouter.get(
+  "/user/:id/summary/category",
+  authorize,
+  getUserFeedbackCategorySummary
+);
 
 feedbackRouter.get("/user/:id/summary", authorize, getUserFeedbackSummary);
 

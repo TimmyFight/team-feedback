@@ -35,4 +35,13 @@ export class FeedbackService {
     });
     return this.http.get(url, { headers });
   }
+
+  getUserFeedbackCategorySummary(userId: string) {
+    const url = `${environment.apiUrl}/feedback/user/${userId}/summary/category`;
+    const token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get(url, { headers });
+  }
 }

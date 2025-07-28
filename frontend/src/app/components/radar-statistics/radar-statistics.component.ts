@@ -1,8 +1,10 @@
-import { Component, Inject, PLATFORM_ID } from "@angular/core";
+import { Component, Inject, inject, PLATFORM_ID } from "@angular/core";
 import { isPlatformBrowser, CommonModule } from "@angular/common";
 import { ChartConfiguration, ChartData, ChartType } from "chart.js";
 import { BaseChartDirective } from "ng2-charts";
 
+import { FeedbackService } from "../../services/feedback.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatCardModule } from "@angular/material/card";
 
 @Component({
@@ -12,6 +14,13 @@ import { MatCardModule } from "@angular/material/card";
   styleUrl: "./radar-statistics.component.scss",
 })
 export class RadarStatisticsComponent {
+  ngOnInit(): void {
+    this.getUserFeedbackCategorySummary();
+  }
+
+  private feedbackService = inject(FeedbackService);
+  private _snackBar = inject(MatSnackBar);
+
   isBrowser = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
@@ -37,17 +46,31 @@ export class RadarStatisticsComponent {
     },
   };
 
-  public radarChartLabels: string[] = [
-    "Communication",
-    "Contribution Balance",
-    "Openness & Feedback",
-    "Clarity of Goals",
-    "Collaboration & Support",
-  ];
-
   public radarChartData: ChartData<"radar"> = {
-    labels: this.radarChartLabels,
-    datasets: [{ data: [3, 5, 2, 3, 1] }],
+    labels: [],
+    datasets: [],
   };
   public radarChartType: ChartType = "radar";
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+  getUserFeedbackCategorySummary() {
+    const userId = sessionStorage.getItem("userId") || "";
+
+    this.feedbackService.getUserFeedbackCategorySummary(userId).subscribe({
+      next: (response: any) => {
+        this.radarChartData = response.data;
+      },
+      error: (error) => {
+        this.openSnackBar(
+          `Feedback summary failed: ${error?.error?.error}`,
+          "Close"
+        );
+      },
+    });
+  }
 }

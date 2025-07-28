@@ -74,7 +74,7 @@ export const getUserFeedbackSummary = async (
 
     const userData = await User.findById(req.user.id).select("givenFeedbacks");
 
-    const revievedFeedbacksAverages = userFeedbacks.map((feedback: any) => {
+    const reviewedFeedbacksAverages = userFeedbacks.map((feedback: any) => {
       const scores = [
         parseFloat(feedback.communicationFirst),
         parseFloat(feedback.contributionBalanceFirst),
@@ -90,17 +90,75 @@ export const getUserFeedbackSummary = async (
     });
 
     const allFeedbacksAverage =
-      revievedFeedbacksAverages.length > 0
-        ? revievedFeedbacksAverages.reduce((acc, val) => acc + val, 0) /
-          revievedFeedbacksAverages.length
+      reviewedFeedbacksAverages.length > 0
+        ? reviewedFeedbacksAverages.reduce((acc, val) => acc + val, 0) /
+          reviewedFeedbacksAverages.length
         : 0;
 
     res.status(200).json({
       success: true,
       data: {
         average: Math.round(allFeedbacksAverage * 10) / 10,
-        feedbacksRecieved: revievedFeedbacksAverages.length,
+        feedbacksRecieved: reviewedFeedbacksAverages.length,
         givenFeedbacks: userData?.givenFeedbacks,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserFeedbackCategorySummary = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if ((req as any).user.id !== req.params.id) {
+      const error: any = new Error("You are not the owner of this account");
+      error.status = 401;
+      throw error;
+    }
+
+    const userFeedbacks = await Feedback.find({
+      userId: req.params.id,
+    });
+
+    const categoryKeys = [
+      "communicationFirst",
+      "contributionBalanceFirst",
+      "opennessFeedbackFirst",
+      "clarityGoalsFirst",
+      "collaborationSupportFirst",
+    ];
+
+    const categories = [
+      "Communication",
+      "Contribution Balance",
+      "Openness & Feedback",
+      "Clarity of Goals",
+      "Collaboration & Support",
+    ];
+
+    const categorySums = categoryKeys.map(() => 0);
+
+    userFeedbacks.forEach((feedback: any) => {
+      categoryKeys.forEach((key, index) => {
+        categorySums[index] += parseFloat(feedback[key]);
+      });
+    });
+
+    const feedbackCount = userFeedbacks.length;
+    const categoriesAverage =
+      feedbackCount > 0
+        ? categorySums.map((sum) => Math.round((sum / feedbackCount) * 10) / 10)
+        : categoryKeys.map(() => 0);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        labels: categories,
+        datasets: [{ data: categoriesAverage }],
       },
     });
   } catch (error) {
