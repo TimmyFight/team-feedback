@@ -17,4 +17,13 @@ export class UserService {
     });
     return this.http.get(url, { headers });
   }
+
+  getUserDetails(userId: string) {
+    const url = `${environment.apiUrl}/users/${userId}`;
+    const token = sessionStorage.getItem("token");
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get(url, { headers });
+  }
 }

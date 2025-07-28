@@ -1,8 +1,14 @@
+//@ts-nocheck
+
 import { Router } from "express";
-import { getUsers } from "../controllers/user.controller";
+import { getUsers, getUserDetails } from "../controllers/user.controller";
+
+import authorize from "../middlewares/auth.middleware";
 
 const userRouter = Router();
 
-userRouter.get("/", getUsers);
+userRouter.get("/:id", authorize, getUserDetails);
+
+userRouter.get("/", authorize, getUsers);
 
 export default userRouter;
